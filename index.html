@@ -8,32 +8,55 @@
         body {
             background-color: #ffebee;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            overflow-x: hidden;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             min-height: 100vh;
-            margin: 0;
-            text-align: center;
-            padding: 20px 0;
-            overflow-x: hidden;
         }
 
+        /* Pantalla de inicio para activar música */
+        #pantalla-inicio {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #d32f2f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            transition: opacity 1s;
+        }
+
+        #btn-comenzar {
+            padding: 15px 40px;
+            font-size: 20px;
+            background: white;
+            color: #d32f2f;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            font-weight: bold;
+            animation: latido 1.5s infinite;
+        }
+
+        /* Contenido principal (oculto al inicio) */
         .container {
+            display: none; /* Se muestra al dar clic */
             background: white;
             padding: 25px;
             border-radius: 20px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             width: 85%;
             max-width: 400px;
-            z-index: 10;
+            text-align: center;
             position: relative;
+            z-index: 10;
         }
 
-        h1 {
-            color: #d32f2f;
-            font-size: 26px;
-            margin-bottom: 10px;
-        }
+        h1 { color: #d32f2f; font-size: 26px; margin-bottom: 10px; }
 
         .galeria {
             display: flex;
@@ -56,17 +79,9 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
 
-        .foto-marco img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .foto-marco img { width: 100%; height: 100%; object-fit: cover; }
 
-        p {
-            color: #5d4037;
-            line-height: 1.6;
-            font-size: 17px;
-        }
+        p { color: #5d4037; line-height: 1.6; font-size: 17px; }
 
         .corazon-animado {
             color: #e91e63;
@@ -87,48 +102,31 @@
             font-size: 20px;
             user-select: none;
             z-index: 1;
+            color: #ff1744;
             animation: fall linear forwards;
         }
 
-        @keyframes fall {
-            to { transform: translateY(105vh); }
-        }
+        @keyframes fall { to { transform: translateY(105vh); } }
 
-        audio {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 20px;
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #ef9a9a;
-        }
+        footer { margin-top: 20px; font-size: 12px; color: #ef9a9a; }
     </style>
 </head>
 <body>
 
-    <div class="container">
+    <div id="pantalla-inicio">
+        <h1 style="color:white; margin-bottom:20px;">Tienes una sorpresa...</h1>
+        <button id="btn-comenzar">❤️ ABRIR ❤️</button>
+    </div>
+
+    <div class="container" id="contenido-principal">
         <div class="corazon-animado">❤️</div>
         <h1>¡Feliz 14, mi Negrita!</h1>
         
         <div class="galeria">
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/Y2Y7vTmh/1770764914359.png" alt="Nosotros 1">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/hzMzSLjf/Screenshot-2026-02-10-22-11-13-626-com-google-android-apps-photos.jpg" alt="Nosotros 2">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/hzKQWySL/Screenshot-2026-02-10-22-12-11-947-com-google-android-apps-photos.jpg" alt="Nosotros 3">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/Fdhk5W90/Screenshot-2026-02-10-22-12-34-849-com-google-android-apps-photos.jpg" alt="Nosotros 4">
-            </div>
+            <div class="foto-marco"><img src="https://i.postimg.cc/Y2Y7vTmh/1770764914359.png"></div>
+            <div class="foto-marco"><img src="https://i.postimg.cc/hzMzSLjf/Screenshot-2026-02-10-22-11-13-626-com-google-android-apps-photos.jpg"></div>
+            <div class="foto-marco"><img src="https://i.postimg.cc/hzKQWySL/Screenshot-2026-02-10-22-12-11-947-com-google-android-apps-photos.jpg"></div>
+            <div class="foto-marco"><img src="https://i.postimg.cc/Fdhk5W90/Screenshot-2026-02-10-22-12-34-849-com-google-android-apps-photos.jpg"></div>
         </div>
 
         <p>
@@ -140,9 +138,8 @@
             <b>Te amo, Negrita.</b>
         </p>
 
-        <audio controls autoplay>
+        <audio id="musica" loop>
             <source src="Necesito%20un%20Amor%20-%20Hnos.%20Cartagena%20(XX%20Aniversario%20Karamba%20Latin%20Disco%202017).mp3" type="audio/mpeg">
-            Tu navegador no soporta el audio.
         </audio>
         
         <div style="font-size: 25px; margin-top:15px;">🌹🌹🌹</div>
@@ -151,6 +148,19 @@
     <footer>Hecho con mis propias manos para ti ❤️</footer>
 
     <script>
+        // TRUCO PARA ACTIVAR MÚSICA
+        document.getElementById('btn-comenzar').addEventListener('click', function() {
+            var audio = document.getElementById('musica');
+            audio.play(); // Play a la música
+            
+            document.getElementById('pantalla-inicio').style.opacity = '0'; // Desaparece pantalla roja
+            setTimeout(function(){
+                document.getElementById('pantalla-inicio').style.display = 'none';
+                document.getElementById('contenido-principal').style.display = 'block'; // Muestra la carta
+            }, 1000);
+        });
+
+        // LLUVIA DE CORAZONES
         function createHeart() {
             const heart = document.createElement('div');
             heart.classList.add('heart-rain');
@@ -168,196 +178,3 @@
 </body>
 </html>
 
-        /* Estilo para las 4 fotos */
-        .galeria {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
-        }
-
-        .foto-marco {
-            width: 130px; /* Un poco más grandes */
-            height: 130px;
-            border-radius: 15px;
-            border: 3px solid #ffcdd2;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f3f3f3;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .foto-marco img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        p {
-            color: #5d4037;
-            line-height: 1.6;
-            font-size: 17px;
-        }
-
-        .corazon-animado {
-            color: #e91e63;
-            font-size: 40px;
-            animation: latido 1.2s infinite;
-            margin-bottom: 10px;
-        }
-
-        @keyframes latido {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        /* Lluvia de corazones */
-        .heart-rain {
-            position: fixed;
-            top: -1vh;
-            font-size: 20px;
-            user-select: none;
-            z-index: 1;
-            animation: fall linear forwards;
-        }
-
-        @keyframes fall {
-            to { transform: translateY(105vh); }
-        }
-
-        audio {
-            width: 100%;
-            margin-top: 15px;
-            border-radius: 20px;
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 12px;
-            color: #ef9a9a;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="corazon-animado">❤️</div>
-        <h1>¡Feliz 14, mi Negrita!</h1>
-        
-        <div class="galeria">
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/Y2Y7vTmh/1770764914359.png" alt="Nosotros 1">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/Prk23Wbb/1000095903.jpg" alt="Nosotros 2">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/tJn4q07T/1000095904.jpg" alt="Nosotros 3">
-            </div>
-
-            <div class="foto-marco">
-                <img src="https://i.postimg.cc/k4W0h00q/1000095905.jpg" alt="Nosotros 4">
-            </div>
-        </div>
-
-        <p>
-            <b>Alejandra, mi amor:</b><br><br>
-            Gracias por estos más de 2 años maravillosos. Eres mi compañera perfecta, mi alegría de todos los días y lo mejor que me ha pasado en la vida.
-            <br><br>
-            ¡Por muchos años más juntos! 
-            <br>
-            <b>Te amo, Negrita.</b>
-        </p>
-
-        <audio controls autoplay>
-            <source src="cancion.mp3" type="audio/mpeg">
-            Tu navegador no soporta el audio.
-        </audio>
-        
-        <div style="font-size: 25px; margin-top:15px;">🌹🌹🌹</div>
-    </div>
-
-    <footer>Hecho con mis propias manos para ti ❤️</footer>
-
-    <script>
-        function createHeart() {
-            const heart = document.createElement('div');
-            heart.classList.add('heart-rain');
-            heart.innerHTML = '❤️';
-            heart.style.left = Math.random() * 100 + 'vw';
-            heart.style.animationDuration = Math.random() * 2 + 3 + 's';
-            heart.style.opacity = Math.random();
-            heart.style.fontSize = Math.random() * 20 + 10 + 'px';
-            document.body.appendChild(heart);
-            setTimeout(() => { heart.remove(); }, 5000);
-        }
-        setInterval(createHeart, 300);
-    </script>
-
-</body>
-</html>
-            border-radius: 50%;
-            border: 5px solid #ffcdd2;
-            margin: 20px auto;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #f3f3f3;
-        }
-
-        .foto-marco img {
-            width: 100%;
-            height: auto;
-        }
-
-        p {
-            color: #5d4037;
-            line-height: 1.6;
-            font-size: 18px;
-        }
-
-        .corazon {
-            color: #e91e63;
-            font-size: 50px;
-            animation: latido 1.2s infinite;
-        }
-
-        @keyframes latido {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
-        }
-
-        footer {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #9e9e9e;
-        }
-    </style>
-</head>
-<body>
-
-    <div class="container">
-        <div class="corazon">❤</div>
-        <h1>¡Feliz 14 de Febrero, Negrita!</h1>
-        
-        <div class="foto-marco">
-            <img src="https://i.postimg.cc/Y2Y7vTmh/1770764914359.png" alt="Nuestra Foto">
-        </div>
-
-        <p>Ale, gracias por estos más de 2 años maravillosos. Eres lo mejor que me ha pasado. ¡Te amo!</p>
-        
-        <div style="font-size: 25px;">🌹🌹🌹</div>
-    </div>
-
-    <footer>Hecho con ❤️ para Alejandra</footer>
-
-</body>
-</html>
